@@ -5,9 +5,17 @@ async function inputTextByLabel(page: Page, label: string, value: string) {
   await page.locator(xpath).fill(value);
 }
 
-async function findInlineErrorByLabel(page: Page, label: string) {
-  let xpath = `((//label[normalize-space(text())="${label}"]//following::input)[1]//following::span)[1]`;
-  await expect(page.locator(xpath)).toHaveText("This field can not be empty");
+async function verifyInlineErrorByLabel(
+  page: Page,
+  label: string,
+  message: string
+) {
+  // let xpath = `((//label[normalize-space(text())="${label}"]//following::input)[1]//following::span)[1]`;
+  let xpath = `(//label[normalize-space(text())="${label}"]//following::span[normalize-space(text())="${message}"])[1]`;
+  // await expect(page.locator(xpath)).toHaveText("This field can not be empty");
+  await expect(page.locator(xpath)).toBeVisible();
+  // let error = await page.locator(xpath).textContent();
+  // return error;
 }
 
 test("Login successful", async ({ page }) => {
@@ -31,7 +39,11 @@ test("Login empty", async ({ page }) => {
   await inputTextByLabel(page, "Email", "");
   await inputTextByLabel(page, "Password", "");
   await page.getByRole("button", { name: "SIGN IN" }).click();
-  await findInlineErrorByLabel(page, "Email");
-  await findInlineErrorByLabel(page, "Password");
+  await verifyInlineErrorByLabel(page, "Email", "This field can not be empty");
+  await verifyInlineErrorByLabel(
+    page,
+    "Password",
+    "This field can not be empty"
+  );
   //   await expect(page.getByText("This field can not be empty")).toBeVisible();
 });
