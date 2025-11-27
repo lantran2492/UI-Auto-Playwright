@@ -12,8 +12,22 @@ export class CommonPage {
     await this.page.locator(xpath).fill(value);
   }
 
+  async inputTextAreaByLabel(label: string, value: string) {
+    let xpath = `(//label[normalize-space(text())="${label}"]//following::textarea)[1]`;
+    await this.page.locator(xpath).fill(value);
+  }
+
   async clickMenuByLabel(label: string) {
     let xpath = `//div[contains(concat(' ',normalize-space(@class),' '),' admin-nav ')]//a[normalize-space(text())="${label}"]`;
     await this.page.locator(xpath).click();
+  }
+
+  async selectDropdownByLabel(label: string, option: string) {
+    let xpath1 = `(//label[normalize-space(text())="${label}"]//following::select)[1]`;
+    let xpath2 = `(//h3[normalize-space(text())="${label}"]//following::select)[1]`;
+    let xpath3 = `(//td[normalize-space(text())="${label}"]//following::select)[1]`;
+    await this.page
+      .locator(`${xpath1} | ${xpath2} | ${xpath3}`)
+      .selectOption(option);
   }
 }
