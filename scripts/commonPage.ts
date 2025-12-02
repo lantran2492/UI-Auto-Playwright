@@ -30,4 +30,19 @@ export class CommonPage {
       .locator(`${xpath1} | ${xpath2} | ${xpath3}`)
       .selectOption(option);
   }
+
+  async selectRadioByLabel(label: string, option: string) {
+    let xpath = `(//label[normalize-space(text())="${label}"]/following::label[.//span[normalize-space(text())="${option}"] and .//input[@type = "radio"]])[1]`;
+    await this.page.locator(xpath).click();
+  }
+
+  async clickButtonByLabel(label: string) {
+    let xpath = `//button[normalize-space(.)="${label}"]`;
+    await this.page.locator(xpath).click();
+  }
+
+  async verifyPopupMessage(message: string) {
+    let xpath = `//div[@role="alert" and normalize-space(text())="${message}"]`;
+    await expect(this.page.locator(xpath)).toBeVisible();
+  }
 }

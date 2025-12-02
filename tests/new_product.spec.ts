@@ -26,6 +26,8 @@ test("Create new product", async ({ page }) => {
 
   await newProductPage.selectDropdownByLabel("Tax class", "Taxable Goods");
 
+  await newProductPage.uploadProductImage("data/images/bitis.jpg");
+
   await newProductPage.inputTextByLabel("Quantity", "100");
   await newProductPage.inputTextByLabel(
     "Url key",
@@ -41,4 +43,11 @@ test("Create new product", async ({ page }) => {
   await newProductPage.selectDropdownByLabel("Attribute group", "Default");
   await newProductPage.selectDropdownByLabel("Color", "White");
   await newProductPage.selectDropdownByLabel("Size", "XL");
+  await newProductPage.selectRadioByLabel("Status", "Disabled");
+  await newProductPage.selectRadioByLabel("Visibility", "Not visible");
+  await newProductPage.selectRadioByLabel("Manage stock?", "No");
+  await newProductPage.selectRadioByLabel("Stock availability", "No");
+
+  await newProductPage.clickButtonByLabel("Save");
+  await newProductPage.verifyPopupMessage("Product saved successfully!");
 });
