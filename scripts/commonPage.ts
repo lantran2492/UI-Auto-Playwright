@@ -2,6 +2,7 @@ import { test, expect, Page } from "@playwright/test";
 
 export class CommonPage {
   page: Page;
+  searchComponentLocator?: string;
 
   constructor(page: Page) {
     this.page = page;
@@ -9,7 +10,10 @@ export class CommonPage {
 
   async inputTextByLabel(label: string, value: string) {
     let xpath = `(//label[normalize-space(text())="${label}"]//following::input)[1]`;
-    await this.page.locator(xpath).fill(value);
+    let locator = this.page.locator(xpath);
+    await locator.click();
+    await locator.clear();
+    await locator.fill(value);
   }
 
   async inputTextAreaByLabel(label: string, value: string) {
@@ -44,5 +48,19 @@ export class CommonPage {
   async verifyPopupMessage(message: string) {
     let xpath = `//div[@role="alert" and normalize-space(text())="${message}"]`;
     await expect(this.page.locator(xpath)).toBeVisible();
+  }
+
+  async searchInComponentByValue(input: string) {
+    let locator = this.page.locator(this.searchComponentLocator ?? "");
+    await locator.click();
+    await locator.clear();
+    await locator.fill(input);
+    await this.page.keyboard.press("Enter");
+  }
+
+  async getInputValueByLabel(label: string) {
+    let xpath = `(//label[normalize-space(text())="${label}"]//following::input)[1]`;
+    let value = await this.page.locator(xpath).getAttribute("value");
+    return value;
   }
 }
