@@ -63,4 +63,18 @@ export class CommonPage {
     let value = await this.page.locator(xpath).getAttribute("value");
     return value;
   }
+
+  getIdFromUrl() {
+    let url = this.page.url();
+    let id = url.split("/").pop() ?? "";
+    return id;
+  }
+
+  async getCookieHeader() {
+    let cookies = await this.page.context().cookies();
+    let asid = cookies.find((v) => v.name == "asid");
+    let sid = cookies.find((v) => v.name == "sid");
+    let cookieHeader = `asid=${asid?.value}; sid=${sid?.value}`;
+    return cookieHeader;
+  }
 }
