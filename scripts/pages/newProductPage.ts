@@ -1,6 +1,7 @@
 import { Page, request as apiRequest } from "@playwright/test";
 import { CommonPage } from "../commonPage";
 import path from "path";
+import { UI_PRODUCT_PATH } from "../utils/constant";
 
 export class NewProductPage extends CommonPage {
   xpathHeading = `//h1[normalize-space(text())="Create a new product"]`;
@@ -16,7 +17,7 @@ export class NewProductPage extends CommonPage {
 
   async createProduct(body: any, cookieHeader: string) {
     let request = await apiRequest.newContext();
-    return await request.post(`http://localhost:3000/api/products`, {
+    return await request.post(UI_PRODUCT_PATH, {
       headers: {
         Cookie: cookieHeader,
         "Content-Type": "application/json",
