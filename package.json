@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:local": "set TEST_ENV=local&& npx playwright test tests/login.spec.ts",
+    "test:sit1": "set TEST_ENV=sit1&& npx playwright test tests/login.spec.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,5 +15,8 @@
     "@types/node": "^24.10.0",
     "allure-js-commons": "^3.4.3",
     "allure-playwright": "^3.4.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }
