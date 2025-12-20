@@ -8,7 +8,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@types/node": "^24.10.0"
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^24.10.0",
+    "allure-js-commons": "^3.4.3",
+    "allure-playwright": "^3.4.3"
   }
 }
